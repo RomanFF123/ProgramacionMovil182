@@ -1,47 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, SectionList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native';
 
 export default function App() {
+  const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(data => {
+        setUser(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" color="#2B45EA" />
+        <Text>Cargando...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <SectionList 
-        sections={[
-          {
-            title: 'Grupo A',
-            data: [
-              { key: '1', name: 'Luis' },
-              { key: '2', name: 'Saimon' },
-              { key: '3', name: 'Yorch' },
-              { key: '4', name: 'Nestor' },
-              { key: '5', name: 'Markitos' },
-            ],
-          },
-          {
-            title: 'Grupo B',
-            data: [
-              { key: '6', name: 'Ismael' },
-              { key: '7', name: 'Serafin' },
-              { key: '8', name: 'Cheyo' },
-              { key: '9', name: 'Niño' },
-              { key: '10', name: 'Flaco' },
-            ],
-          },
-          {
-            title: 'Grupo C',
-            data: [
-              { key: '11', name: 'Ivan Archivaldo' },
-              { key: '12', name: 'Ovidio' },
-              { key: '13', name: 'Alfredo' },
-              { key: '14', name: 'Joaquin' },
-              { key: '15', name: 'Edgar' },
-            ],
-          },
-        ]}
+      <FlatList
+        data={user}
         renderItem={({ item }) => <Text style={styles.item}>{item.name}</Text>}
-        renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.id.toString()}
       />
+      <StatusBar />
     </View>
   );
 }
@@ -59,13 +49,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#CF87EA',
   },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 18,
-    fontWeight: 'bold',
-    backgroundColor: '#ddd',
+  center: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

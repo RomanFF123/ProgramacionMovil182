@@ -1,0 +1,40 @@
+import { StatusBar } from 'expo-status-bar';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SectionList, acti } from 'react-native';
+
+export default function App() {
+
+  const [user, setUser]= useState([])
+  const [loading, setLoading]= useState(true)
+
+  return (
+    <View style={styles.container}>
+     
+     <StatusBar />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 40,
+  },
+  item: {
+    padding: 10,
+    fontSize: 24,
+    height: 50,
+    borderBottomWidth: 1,
+    borderColor: '#CF87EA',
+  },
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 18,
+    fontWeight: 'bold',
+    backgroundColor: '#ddd',
+  },
+});
