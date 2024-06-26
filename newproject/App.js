@@ -1,109 +1,71 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Alert, Pressable, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, SectionList } from 'react-native';
 
 export default function App() {
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [input3, setInput3] = useState('');
-
-  const handleSubmit = () => {
-    console.log('Botón presionado');
-    console.log(`Input 1: ${input1}, Input 2: ${input2}, Input 3: ${input3}`);
-    Alert.alert(
-      'Datos Enviados',
-      `Input 1: ${input1}\nInput 2: ${input2}\nInput 3: ${input3}`
-    );
-  };
-
-
-
   return (
-    <ImageBackground source={{ uri: 'https://images.pexels.com/photos/1624496/pexels-photo-1624496.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.background}>
-      <View style={styles.container}>
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>Llena los siguientes campos</Text>
-
-          <TextInput 
-            style={styles.input} 
-            placeholder='Nombre Completo' 
-            onChangeText={(text) => setInput1(text)} 
-            value={input1} 
-          />
-
-          <TextInput 
-            style={styles.input} 
-            placeholder='Email' 
-            onChangeText={(text) => setInput2(text)} 
-            value={input2} 
-          />
-
-          <TextInput 
-            style={styles.input} 
-            placeholder='Contraseña' 
-            onChangeText={(text) => setInput3(text)} 
-            value={input3} 
-            secureTextEntry={true} 
-          />
-
-          <Pressable style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Enviar</Text>
-          </Pressable>
-
-          <StatusBar style="auto" />
-        </View>
-      </View>
-    </ImageBackground>
+    <View style={styles.container}>
+      <SectionList 
+        sections={[
+          {
+            title: 'Grupo A',
+            data: [
+              { key: '1', name: 'Luis' },
+              { key: '2', name: 'Saimon' },
+              { key: '3', name: 'Yorch' },
+              { key: '4', name: 'Nestor' },
+              { key: '5', name: 'Markitos' },
+            ],
+          },
+          {
+            title: 'Grupo B',
+            data: [
+              { key: '6', name: 'Ismael' },
+              { key: '7', name: 'Serafin' },
+              { key: '8', name: 'Cheyo' },
+              { key: '9', name: 'Niño' },
+              { key: '10', name: 'Flaco' },
+            ],
+          },
+          {
+            title: 'Grupo C',
+            data: [
+              { key: '11', name: 'Ivan Archivaldo' },
+              { key: '12', name: 'Ovidio' },
+              { key: '13', name: 'Alfredo' },
+              { key: '14', name: 'Joaquin' },
+              { key: '15', name: 'Edgar' },
+            ],
+          },
+        ]}
+        renderItem={({ item }) => <Text style={styles.item}>{item.name}</Text>}
+        renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
-
   container: {
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingTop: 40,
   },
-
-  formContainer: {
-    width: '90%',
-    padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-
-  title: {
-    fontSize: 18,
-    marginBottom: 20,
-    fontWeight: 'bold',
-  },
-
-  input: {
-    width: '100%',
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: '#CF87EA',
-    marginVertical: 10,
-  },
-
-  button: {
-    marginTop: 20,
-    backgroundColor: '#CF87EA',
+  item: {
     padding: 10,
-    borderRadius: 5,
-    width: '100%',
-    alignItems: 'center',
+    fontSize: 24,
+    height: 50,
+    borderBottomWidth: 1,
+    borderColor: '#CF87EA',
   },
-
-  buttonText: {
-    color: '#fff',
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
+    backgroundColor: '#ddd',
   },
 });
