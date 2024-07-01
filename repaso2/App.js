@@ -1,0 +1,115 @@
+import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, ImageBackground, Alert } from 'react-native';
+
+export default function App() {
+  const [Busqueda, setBusqueda] = useState('');
+  const [peliculasFiltradas, setPeliculasFiltradas] = useState([]);
+
+  const listaPeliculas = [
+    { id: '1', titulo: 'Sangre, Sudor y Gloria', año: 2012 },
+    { id: '2', titulo: 'Interestelar', año: 2014 },
+    { id: '3', titulo: 'El Padrino', año: 1972 },
+    { id: '4', titulo: 'Scarface', año: 1983 },
+    { id: '5', titulo: 'El Lobo de Wall Street', año: 2013 },
+     { id: '7', titulo: 'El Juego de la Fortuna', año: 2011 },  
+    { id: '8', titulo: 'Nuestra Pandilla', año: 1994 },
+    { id: '9', titulo: 'La familia del Futuro', año: 2007 },
+    { id: '10', titulo: 'Rápidos y Furiosos', año: 2001 },
+    { id: '11', titulo: 'Los picapiedra', año: 1994 },
+    { id: '12', titulo: 'El conjuro', año: 2013 },
+    { id: '13', titulo: 'Corre', año: 2020 },
+    { id: '14', titulo: 'La era de Hielo', año: 2002 },
+    { id: '15', titulo: 'Juego de Honor', año: 2005 },
+    { id: '16', titulo: 'Telefono Negro', año: 2002 },
+  ];
+
+  const manejarBusqueda = () => {
+    const resultados = listaPeliculas.filter(pelicula => pelicula.titulo.toLowerCase().includes(Busqueda.toLowerCase()));
+    setPeliculasFiltradas(resultados);
+
+    if (resultados.length === 0) {
+      Alert.alert('No se encontraron resultados', 'Intenta buscar otra película.');
+    }
+  };
+
+  return (
+    <ImageBackground source={require('./assets/atul-vinayak-SqRd6V8tu0M-unsplash.jpg')} style={estilos.fondo}>
+      <View style={estilos.contenedor}>
+        <View style={estilos.contenedorBusqueda}>
+          <Text style={estilos.texto}>Busca una película de tu preferencia!</Text>
+          <TextInput
+            placeholder='Nombre de la película...'
+            placeholderTextColor="#fff"
+            style={[estilos.entrada, estilos.texto]}
+            value={Busqueda}
+            onChangeText={setBusqueda}
+          />
+          <TouchableOpacity style={estilos.boton} onPress={manejarBusqueda}>
+            <Text style={estilos.textoBoton}>Buscar</Text>
+          </TouchableOpacity>
+        </View>
+        {peliculasFiltradas.length > 0 && (
+          <FlatList
+            data={peliculasFiltradas}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <Text style={estilos.itemPelicula}>{item.titulo} ({item.año})</Text>
+            )}
+            style={estilos.lista}
+          />
+        )}
+        <StatusBar style="auto" />
+      </View>
+    </ImageBackground>
+  );
+}
+
+const estilos = StyleSheet.create({
+  fondo: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
+  contenedor: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'top',
+    marginTop: 175, 
+  },
+  contenedorBusqueda: {
+    width: '80%',
+    alignItems: 'center',
+  },
+  entrada: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingLeft: 10,
+    width: '100%',
+  },
+  boton: {
+    backgroundColor: '#213EF9',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '100%',
+  },
+  textoBoton: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  lista: {
+    marginTop: 20,
+    width: '80%',
+  },
+  itemPelicula: {
+    padding: 10,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    color: '#fff', 
+  },
+  texto: {
+    color: '#fff', 
+  },
+});
